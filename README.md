@@ -57,7 +57,7 @@ This system provides functionalities for users (primarily administrators based o
     git clone <your-repo-url>
     cd <your-repo-directory>
     ```
-2.  **Front-End:** The HTML/CSS/JS files can be served locally using any simple HTTP server (like Python's `http.server`, Node.js `serve`, or VS Code Live Server).
+2.  **Front-End:** The HTML/CSS/JS files can be served locally using any simple HTTP server.
 3.  **Back-End (Crucial):**
     * Set up a Google Firebase project.
     * Enable Firebase Authentication (Email/Password provider). Create admin user(s) in the Firebase console.
@@ -67,7 +67,7 @@ This system provides functionalities for users (primarily administrators based o
 ## Usage
 
 * **Administrator:** Navigate to `LOGIN.HTML`. Enter registered admin email and password to log in. Upon success, you are redirected to `buy.html` (Admin Hub). From there, access various sections to manage inventory, update prices, view orders, check messages, and review update logs. Administrators can also potentially place orders via `cement.html`/`steel.html` after login.
-* **General User/Customer:** Access `index.html` to view the site and use the contact form. The ordering process (`cement.html`, `steel.html`) requires login via `LOGIN.HTML`. (Note: The current login page is explicitly marked for Admins; customer-specific registration or login flows are not present in the provided files).
+* **General User/Customer:** Access `index.html` to view the site and use the contact form. Can send requests or send messages through the contact form of the `index.html`.
 
 ## Key Files
 
