@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Stock Management</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #333;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .input-container {
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: #f5f5f5;
+            border-radius: 20px;
+        }
+
+        .input-container label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .input-container input,
+        .input-container select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-database.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Inventory Stock Management</h1>
+
+        <!-- Add New Batch Details Button -->
+        <button id="addNewBatchBtn" onclick="toggleInputContainer()">Add New Batch Details</button>
+
+        <!-- Input Container -->
+        <div class="input-container" id="inputContainer">
+            <label for="batchId">Batch ID:</label>
+            <input type="text" id="batchId" required><br><br>
+
+            <label for="product">Product:</label>
+            <select id="product" required>
+                <option value="ultratech-43-grade">UltraTech Cement - 43 Grade</option>
+                <option value="acc-33-grade">ACC Cement - 33 Grade</option>
+                <option value="ambuja-53-grade">Ambuja Cement - 53 Grade</option>
+                <option value="shree-cement-43-grade">Shree Cement - 43 Grade</option>
+                <option value="dalmia-53-grade">Dalmia Cement - 53 Grade</option>
+                <option value="jk-lakshmi-43-grade">JK Lakshmi Cement - 43 Grade</option>
+                <option value="birla-43-grade">Birla Cement - 43 Grade</option>
+                <option value="ramco-53-grade">Ramco Cement - 53 Grade</option>
+                <option value="sagar-33-grade">Sagar Cement - 33 Grade</option>
+                <option value="zuari-53-grade">Zuari Cement - 53 Grade</option>
+                <option value="priya-43-grade">Priya Cement - 43 Grade</option>
+                <option value="penna-53-grade">Penna Cement - 53 Grade</option>
+                <option value="tata-10mm-tmt">Tata Steel - 10mm TMT</option>
+                <option value="sail-12mm-tmt">SAIL - 12mm TMT</option>
+                <option value="jindal-16mm-tmt">Jindal Steel - 16mm TMT</option>
+                <option value="shyam-12mm-crs">Shyam Steel - 12mm CRS</option>
+                <option value="essar-10mm-crs">Essar Steel - 10mm CRS</option>
+                <option value="jsw-16mm-tmt">JSW Steel - 16mm TMT</option>
+                <option value="rinl-12mm-tmt">RINL - 12mm TMT</option>
+                <option value="jspl-10mm-crs">JSPL - 10mm CRS</option>
+                <option value="bhushan-16mm-tmt">Bhushan Steel - 16mm TMT</option>
+                <option value="electrosteel-12mm-crs">Electrosteel - 12mm CRS</option>
+                <option value="vizag-10mm-tmt">Vizag Steel - 10mm TMT</option>
+                <option value="monnet-16mm-crs">Monnet Ispat - 16mm CRS</option>
+            </select><br><br>
+
+            <label for="vehicleId">Vehicle ID:</label>
+            <input type="text" id="vehicleId" required><br><br>
+
+            <label for="stock">Stock:</label>
+            <input type="number" id="stock" min="1" required><br><br>
+
+            <button onclick="addBatchDetails()">Add Batch</button>
+        </div>
+
+        <!-- Inventory Stock Records Table -->
+        <table id="inventoryStockTable">
+            <thead>
+                <tr>
+                    <th>Batch ID</th>
+                    <th>Product</th>
+                    <th>Vehicle ID</th>
+                    <th>Stock</th>
+                    <th>Timestamp</th>
+                </tr>
+            </thead>
+            <tbody id="inventoryStockBody">
+                <!-- Table rows will be dynamically added here -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Firebase configuration and script -->
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+  apiKey: "AIzaSyAYKhbr4b51rh8y7TrszOe6K1NAyW51dPk",
+  authDomain: "entms-ac6ee.firebaseapp.com",
+  projectId: "entms-ac6ee",
+  storageBucket: "entms-ac6ee.firebasestorage.app",
+  messagingSenderId: "777824010875",
+  appId: "1:777824010875:web:2b0b260094736b3e6758de",
+  measurementId: "G-X3DN644P8K"
+};
+
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // Toggle input container visibility
+        function toggleInputContainer() {
+            const inputContainer = document.getElementById('inputContainer');
+            inputContainer.style.display = inputContainer.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Add new batch details to inventory_stock node
+        function addBatchDetails() {
+    const batchId = document.getElementById('batchId').value;
+    const product = document.getElementById('product').value;
+    const vehicleId = document.getElementById('vehicleId').value;
+    const stock = parseInt(document.getElementById('stock').value);
+    const timestamp = new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" });
+
+    const newBatch = {
+        batchId: batchId,
+        product: product,
+        vehicleId: vehicleId,
+        stock: stock,
+        timestamp: timestamp
+    };
+
+    // Push new batch details to inventory_stock node
+    const inventoryStockRef = database.ref('inventory_stock');
+    inventoryStockRef.push(newBatch);
+
+    // Update stock_available value for the product
+    const stockAvailableRef = database.ref('stock_available');
+    stockAvailableRef.child(product).once('value')
+        .then(function(snapshot) {
+            const currentStock = snapshot.val() || 0;
+            const updatedStock = currentStock + stock;
+            stockAvailableRef.child(product).set(updatedStock);
+        })
+        .catch(function(error) {
+            console.error('Error updating stock:', error);
+        });
+
+    // Clear input fields after adding batch
+    document.getElementById('batchId').value = '';
+    document.getElementById('vehicleId').value = '';
+    document.getElementById('stock').value = '';
+
+    // Hide input container after adding batch
+    toggleInputContainer();
+}
+        // Display inventory stock records in the table
+        const inventoryStockTable = document.getElementById('inventoryStockTable');
+        const inventoryStockBody = document.getElementById('inventoryStockBody');
+        const inventoryStockRef = database.ref('inventory_stock').orderByChild('timestamp').limitToLast(100);
+        inventoryStockRef.on('child_added', function(snapshot) {
+            const batch = snapshot.val();
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td>${batch.batchId}</td>
+                <td>${batch.product}</td>
+                <td>${batch.vehicleId}</td>
+                <td>${batch.stock}</td>
+                <td>${batch.timestamp}</td>
+            `;
+            inventoryStockBody.insertBefore(newRow, inventoryStockBody.firstChild);
+        });
+    </script>
+</body>
+</html>

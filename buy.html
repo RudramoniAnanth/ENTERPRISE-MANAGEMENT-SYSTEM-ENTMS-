@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .section-title {
+            text-align: center;
+            color: #333;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .service-item {
+            flex: 0 0 calc(25% - 20px);
+            max-width: calc(25% - 20px);
+            margin: 10px;
+            animation: slideUp 0.5s ease-in-out;
+        }
+
+        .card {
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .title {
+            color: #333;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .buy-now-button {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .buy-now-button:hover {
+            background-color: #45a049;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <section id="services" class="services">
+        <div class="container">
+            <div class="section-title">
+                <h2>Services</h2>
+            </div>
+
+            <div class="row">
+                <div class="service-item">
+                    <div class="card">
+                        <h4 class="title">BUY CEMENT</h4>
+                        <a href="cement.html" class="buy-now-button">Buy Now</a>
+                    </div>
+                </div>
+
+                <div class="service-item">
+                    <div class="card">
+                        <h4 class="title">BUY STEEL</h4>
+                        <a href="steel.html" class="buy-now-button">Buy Now</a>
+                    </div>
+                </div>
+
+                <div class="service-item">
+                    <div class="card">
+                        <h4 class="title">CHECK TRANSACTIONS</h4>
+                        <a href="orders.html" class="buy-now-button">Check Now</a>
+                    </div>
+                </div>
+
+                <div class="service-item">
+                    <div class="card">
+                        <h4 class="title">UPDATE CEMENT PRICES</h4>
+                        <a href="cement_price_update.html" class="buy-now-button">Update Now</a>
+                    </div>
+                </div>
+
+                <div class="service-item">
+                    <div class="card">
+                        <h4 class="title">UPDATE STEEL PRICES</h4>
+                        <a href="steel_price_update.html" class="buy-now-button">Update Now</a>
+                    </div>
+                </div>
+
+                <div class="service-item">
+                    <div class="card">
+                        <h4 class="title">CHECK UPDATE RECORDS</h4>
+                        <a href="update_records.html" class="buy-now-button">Check Now</a>
+                    </div>
+                </div>
+
+                <div class="service-item">
+                    <div class="card">
+                        <h4 class="title">STOCK MANAGEMENT</h4>
+                        <a href="inventory_stock.html" class="buy-now-button">Check Now</a>
+                    </div>
+                </div>
+
+                <div class="service-item">
+                    <div class="card">
+                        <h4 class="title">CHECK STOCK</h4>
+                        <a href="stock_details.html" class="buy-now-button">Check Now</a>
+                    </div>
+                </div>
+
+                <div class="service-item">
+                  <div class="card">
+                      <h4 class="title">CHECK INBOX</h4>
+                      <a href="messages.html" class="buy-now-button">Check Now</a>
+                  </div>
+              </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

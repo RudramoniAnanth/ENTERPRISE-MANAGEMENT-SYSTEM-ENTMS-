@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy Steel</title>
+    <style>
+              @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #F9F9F9;
+    color: #333;
+}
+
+h1 {
+    text-align: center;
+    color: #4ca8af;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 1s ease;
+}
+
+label {
+    font-weight: 600;
+}
+
+select, input[type="text"], input[type="number"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-family: inherit;
+    transition: border-color 0.3s ease;
+}
+
+select:focus, input[type="text"]:focus, input[type="number"]:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+
+button {
+    background-color: #4ca8af   ;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #4ca8af;
+}
+
+#totalPrice {
+    text-align: center;
+    animation: fadeIn 1s ease;
+}
+
+#buyButton {
+    display: none;
+    margin: 20px auto;
+    text-align: center;
+    animation: fadeIn 1s ease;
+}
+
+#billTemplate {
+    display: none;
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    text-align: left;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    animation: fadeIn 1s ease;
+}
+
+#billTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#billTable th, #billTable td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+#billTable th {
+    background-color: #f2f2f2;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+    </style>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-database.js"></script>
+</head>
+<body>
+    <h1>Buy Steel Now..!</h1>
+
+    <label for="product">Select a steel product:</label>
+    <select id="product" name="product">
+        <option value="tata-10mm-tmt">Tata Steel - 10mm TMT</option>
+        <option value="sail-12mm-tmt">SAIL - 12mm TMT</option>
+        <option value="jindal-16mm-tmt">Jindal Steel - 16mm TMT</option>
+        <option value="shyam-12mm-crs">Shyam Steel - 12mm CRS</option>
+        <option value="essar-10mm-crs">Essar Steel - 10mm CRS</option>
+        <option value="jsw-16mm-tmt">JSW Steel - 16mm TMT</option>
+        <option value="rinl-12mm-tmt">RINL - 12mm TMT</option>
+        <option value="jspl-10mm-crs">JSPL - 10mm CRS</option>
+        <option value="bhushan-16mm-tmt">Bhushan Steel - 16mm TMT</option>
+        <option value="electrosteel-12mm-crs">Electrosteel - 12mm CRS</option>
+        <option value="vizag-10mm-tmt">Vizag Steel - 10mm TMT</option>
+        <option value="monnet-16mm-crs">Monnet Ispat - 16mm CRS</option>
+    </select>
+
+    <br><br>
+
+    <label for="units">Enter number of units:</label>
+    <input type="number" id="units" min="1" required><br><br>
+    <label for="name">Purchased by:</label>
+    <input type="text" id="name" required><br><br>
+
+    <button onclick="calculatePrice()">Calculate Total Price</button>
+
+    <div id="totalPrice"></div>
+
+    <!-- Proceed to Bill Button (Initially Hidden) -->
+    <button id="buyButton" onclick="showBillTemplate()">Proceed to Bill</button>
+
+    <!-- Bill Template (Initially Hidden) -->
+    <div id="billTemplate">
+        <h2>EPMS</h2>
+        <p id="customerNameDisplay"></p> <!-- New display for customer name -->
+        <table id="billTable">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Units</th>
+                    <th>Total Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td id="billProductName"></td>
+                    <td id="billUnits"></td>
+                    <td id="billTotalPrice"></td>
+                </tr>
+            </tbody>
+        </table>
+        <button id="proceedToBuyButton" onclick="proceedToBuy()" style="margin-top: 20px;">Proceed to Buy</button>
+    </div>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+  apiKey: "AIzaSyAYKhbr4b51rh8y7TrszOe6K1NAyW51dPk",
+  authDomain: "entms-ac6ee.firebaseapp.com",
+  projectId: "entms-ac6ee",
+  storageBucket: "entms-ac6ee.firebasestorage.app",
+  messagingSenderId: "777824010875",
+  appId: "1:777824010875:web:2b0b260094736b3e6758de",
+  measurementId: "G-X3DN644P8K"
+};
+
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        let totalPriceValue = 0; // Global variable to store total price
+
+        function fetchProductPrice(productId) {
+            return new Promise((resolve, reject) => {
+                const productRef = database.ref('steel_details').child(productId);
+                productRef.once('value', (snapshot) => {
+                    const productData = snapshot.val();
+                    if (productData && productData.price) {
+                        resolve(productData.price);
+                    } else {
+                        reject("Product price not found.");
+                    }
+                });
+            });
+        }
+
+        async function calculatePrice() {
+            const productId = document.getElementById("product").value;
+            const units = document.getElementById("units").value;
+
+            if (!productId) {
+                alert("Please select a product.");
+                return;
+            }
+
+            if (units <= 0) {
+                alert("Please enter a valid number of units.");
+                return;
+            }
+
+            try {
+                const productPrice = await fetchProductPrice(productId);
+                const totalPrice = productPrice * units;
+                totalPriceValue = totalPrice; // Store total price in the global variable
+                document.getElementById("totalPrice").innerHTML = `<h1>Total Price: ₹ ${totalPrice.toFixed(2)}</h1>`; // Display total price with 2 decimal places
+
+                // Show the Proceed to Bill button after calculating the total price
+                document.getElementById("buyButton").style.display = "block";
+            } catch (error) {
+                alert(error);
+            }
+        }
+
+        function showBillTemplate() {
+            const productId = document.getElementById("product").value;
+            const units = document.getElementById("units").value;
+            const productName = document.getElementById("product").options[document.getElementById("product").selectedIndex].text;
+            const purchasedBy = document.getElementById("name").value; // Get the purchased by name
+
+            if (totalPriceValue <= 0) {
+                alert("Please calculate the total price first.");
+                return;
+            }
+
+            // Populate the bill template
+            document.getElementById("customerNameDisplay").textContent = `Customer: ${purchasedBy}`; // Display customer name
+            document.getElementById("billProductName").textContent = productName;
+            document.getElementById("billUnits").textContent = units;
+            document.getElementById("billTotalPrice").textContent = `₹ ${totalPriceValue.toFixed(2)}`; // Display total price with 2 decimal places
+
+            // Show the bill template
+            document.getElementById("billTemplate").style.display = "block";
+        }
+
+        function proceedToBuy() {
+            const confirmed = confirm("Assuming payment is done. Shall I proceed...?");
+            if (confirmed) {
+                const paymentMode = prompt("Select payment mode:", "Cash,UPI");
+
+                if (paymentMode === "Cash") {
+                    placeOrder("Cash", "");
+                } else if (paymentMode === "UPI") {
+                    const transactionId = prompt("Enter UPI Transaction ID:");
+                    const phoneNumber = prompt("Enter the phone number used for UPI payment:");
+                    if (transactionId && phoneNumber) {
+                        placeOrder("UPI", transactionId, phoneNumber);
+                    } else {
+                        alert("Please enter a valid UPI transaction ID and phone number.");
+                    }
+                } else {
+                    alert("Please select a valid payment mode (Cash or UPI).");
+                }
+            } else {
+                alert("Please make the payment to proceed.");
+            }
+        }
+
+        function placeOrder(paymentType, transactionId, phoneNumber = "") {
+            const productId = document.getElementById("product").value;
+            const units = parseInt(document.getElementById("units").value);
+            const purchasedBy = document.getElementById("name").value;
+
+            // Get current time in IST
+            const timestamp = new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" });
+
+            const orderData = {
+                product: productId,
+                units: units,
+                totalPrice: totalPriceValue.toFixed(2), // Use the global variable for total price
+                purchasedBy: purchasedBy,
+                paymentType: paymentType,
+                transactionId: (paymentType === "Cash") ? "N/A" : transactionId,
+                paidUsingNumber: (paymentType === "Cash") ? "N/A" : phoneNumber,
+                timestamp: timestamp // Updated timestamp in IST
+            };
+
+            // Store order details in the database
+            const orderRef = database.ref('orders').push(orderData);
+
+            // Update the orderId with the generated key
+            orderRef.update({ orderId: orderRef.key });
+
+            // Fetch the current stock from the stock_available database
+            const stockAvailableRef = database.ref('stock_available').child(productId);
+
+            // Deduct units from stock_available
+            stockAvailableRef.once('value')
+                .then(function (snapshot) {
+                    const currentStock = snapshot.val() || 0;
+                    const updatedStock = currentStock - units;
+                    if (updatedStock >= 0) {
+                        stockAvailableRef.set(updatedStock);
+                        alert(`Order placed successfully! Order ID: ${orderRef.key}`);
+                        window.location.href = 'success.html';
+                    } else {
+                        alert('Insufficient stock available for the selected product.');
+                    }
+                })
+                .catch(function (error) {
+                    console.error('Error updating stock:', error);
+                });
+        }
+
+    </script>
+</body>
+</html>

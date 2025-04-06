@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EMPS</title>
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|Raleway:300,400,500,600,700" rel="stylesheet">
+  <link href="assets\css\style.css" rel="stylesheet">
+</head>
+
+<body>
+  <!-- Header -->
+  <div class="header">
+    <div class="hamburger" id="hamburger" onclick="toggleSidebar()">☰</div>
+    <div class="logo">EPMS</div>
+    <div class="navbar">
+      <button onclick="window.location.href='#home'">Home</button>
+      <button onclick="window.location.href='#about'">About</button>
+      <button onclick="window.location.href='#team'">Team</button>
+      <button onclick="window.location.href='#contact'">Contact</button>
+      <button onclick="window.location.href='LOGIN.HTML'">Buy Products</button>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <button onclick="window.location.href='#home'">Home</button>
+    <button onclick="window.location.href='#about'">About</button>
+    <button onclick="window.location.href='#team'">Team</button>
+    <button onclick="window.location.href='#contact'">Contact</button>
+    <button onclick="window.location.href='LOGIN.HTML'">Buy Products</button>
+  </div>
+
+  <!-- Content -->
+  <div class="content" id="content">
+    <!-- Hero Section -->
+    <section id="home">
+      <div class="hero-container">
+        <div class="hero-content">
+          <h1>Jai Hanuman Traders</h1>
+          <h2>Steel & Cement: The Building Blocks of Tomorrow.</h2>
+          <a href="#about" class="btn-explore">Explore Us</a>
+        </div>
+        <div class="hero-image">
+          <img src="assets\img\logo\logo.jpeg" alt="Construction Image">
+        </div>
+      </div>
+    </section>
+
+    <!-- Clients Section -->
+    <section class="products-section">
+      <div class="container">
+        <div class="marquee">
+          <img src="assets/img/logo_01.jpg" class="img-fluid" alt="">
+          <img src="assets/img/logo_03.jpg" class="img-fluid" alt="">
+          <img src="assets/img/logo_04.jpg" class="img-fluid" alt="">
+          <img src="assets/img/logo_05.jpg" class="img-fluid" alt="">
+          <img src="assets/img/logo_06.jpg" class="img-fluid" alt="">
+          <img src="assets/img/logo_07.jpg" class="img-fluid" alt="">
+          <img src="assets/img/008.jpg" class="img-fluid" alt="">
+          <img src="assets/img/09.jpeg" class="img-fluid" alt="">
+          <img src="assets/img/10.jpeg" class="img-fluid" alt="">
+          <img src="assets/img/11.jpeg" class="img-fluid" alt="">
+          <img src="assets/img/12.jpeg" class="img-fluid" alt="">
+        </div>
+      </div>
+    </section>
+    <br>
+    <!-- About Us Section -->
+    <section id="about">
+      <div class="about-container">
+        <div class="about-content">
+          <h1>About Us</h1>
+          <p>At Jai Hanuman Traders, we are dedicated to providing top-quality steel and cement products that form the backbone of robust and enduring structures. With years of experience in the industry, our commitment to excellence and customer satisfaction sets us apart.</p>
+        </div>
+        <div class="about-section">
+          <div class="features-container slide-in-left">
+            <div class="feature-box">
+                <i class="fas fa-check-circle"></i>
+                <h4>Quality</h4>
+                <p>We deliver products of the highest quality, ensuring durability and performance in every project.</p>
+              </div>
+              <div class="feature-box">
+                <i class="fas fa-users"></i>
+                <h4>Customer Satisfaction</h4>
+                <p>Our customers are at the heart of everything we do, and we strive to exceed their expectations.</p>
+              </div>
+              <div class="feature-box">
+                <i class="fas fa-lightbulb"></i>
+                <h4>Innovation</h4>
+                <p>We embrace innovative solutions to meet the evolving needs of the construction industry.</p>
+              </div>
+              <div class="feature-box">
+                <i class="fas fa-leaf"></i>
+                <h4>Sustainability</h4>
+                <p>We are committed to environmentally responsible practices in all our operations.</p>
+              </div>
+          </div>
+          <div class="about-image slide-in-right">
+            <img src="assets/img/worker-mixing-cement-sand-concrete-600nw-2170974293.jpg" alt="About Us Image">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team">
+      <div class="team-container">
+        <h2>Our Team</h2>
+        <div class="team-members">
+          <div class="team-member">
+            <div class="member-info">
+              <img src="assets/img/team/ananth.jpg" alt="R. Ananth Yadav">
+              <h4>R. Ananth Yadav</h4>
+              <span>Student</span>
+            </div>
+          </div>
+          <div class="team-member" data-aos="zoom-in" data-aos-delay="100">
+            <div class="member-info">
+              <img src="assets/img/team/abhiram.jpg" alt="V. Abhiram Reddy">
+              <h4>V. Abhiram Reddy</h4>
+              <span>Student</span>
+            </div>
+          </div>
+          <div class="team-member" data-aos="zoom-in" data-aos-delay="200">
+            <div class="member-info">
+                <img src="assets/img/team/pavithra.jpg" alt="Pavithra Sevakula">
+                <h4>Pavithra Sevakula</h4>
+              <span>Student</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+      <div class="contact-container">
+        <div class="contact-info slide-in-left">
+          <h2>Contact Us</h2>
+          <form  method="POST" class="contact-form">
+            <div class="form-group">
+              <input type="text" name="name" placeholder="Your Name" required>
+            </div>
+            <div class="form-group">
+              <input type="email" name="email" placeholder="Your Email" required>
+            </div>
+            <div class="form-group">
+              <input type="text" name="subject" placeholder="Subject" required>
+            </div>
+            <div class="form-group">
+              <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+            </div>
+            <button type="submit">Send Message</button>
+          </form>
+        </div>
+        <div class="contact-map slide-in-right">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6258.478688836946!2d78.14447907326317!3d16.823265259913434!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bca3174f92e7b17%3A0x55f32ff33b967591!2sNarsee%20Monjee%20Institute%20of%20Management%20Studies%20%7C%20NMIMS!5e0!3m2!1sen!2sin!4v1711562328450!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+      </div>
+      <div class="contact-details">
+        <div class="detail">
+          <i class="fas fa-map-marker-alt"></i>
+          <h3>Location</h3>
+          <p>Jadcherla, Telangana</p>
+        </div>
+        <div class="detail">
+          <i class="fas fa-envelope"></i>
+          <h3>Email</h3>
+          <p>epms_web_team@gmail.com</p>
+        </div>
+        <div class="detail">
+          <i class="fas fa-phone"></i>
+          <h3>Phone</h3>
+          <p>+91 9705431557</p>
+        </div>
+      </div>     
+    </div>
+    </section>
+	<br>	<br>
+    <!-- Footer -->
+    <footer id="footer">
+      <div class="footer-container">
+        <div class="footer-content">
+          <p>&copy; 2024 Jai Hanuman Traders. All Rights Reserved.</p>
+          <p>Designed by STME STUDENTS</p>
+          <div class="footer-links">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Use</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+</body>
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-database-compat.js"></script>
+
+<!-- Initialize Firebase -->
+<script type="module">
+ const slideInElements = document.querySelectorAll('.slide-in-left, .slide-in-right');
+    window.addEventListener('scroll', function () {
+      slideInElements.forEach(element => {
+        const elementTop = element.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+
+        if (elementTop < windowHeight - 50) {
+          element.classList.add('in-view');
+        } else {
+          element.classList.remove('in-view');
+        }
+      });
+    });
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const content = document.getElementById('content');
+            const hamburger = document.getElementById('hamburger');
+            
+            sidebar.classList.toggle('show');
+            content.classList.toggle('shifted');
+            hamburger.classList.toggle('rotated');
+        }
+
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+            // Close the sidebar if it's open
+            const sidebar = document.getElementById('sidebar');
+            const content = document.getElementById('content');
+            const hamburger = document.getElementById('hamburger');
+            if (sidebar.classList.contains('show')) {
+                sidebar.classList.remove('show');
+                content.classList.remove('shifted');
+                hamburger.classList.remove('rotated');
+            }
+        }
+
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyAYKhbr4b51rh8y7TrszOe6K1NAyW51dPk",
+    authDomain: "entms-ac6ee.firebaseapp.com",
+    projectId: "entms-ac6ee",
+    storageBucket: "entms-ac6ee.firebasestorage.app",
+    messagingSenderId: "777824010875",
+    appId: "1:777824010875:web:2b0b260094736b3e6758de",
+    measurementId: "G-X3DN644P8K"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const database = getDatabase(app);
+
+  // Add submit event listener to the contact form
+  document.querySelector('.contact-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // Get form values
+    const name = document.querySelector('input[name="name"]').value;
+    const email = document.querySelector('input[name="email"]').value;
+    const subject = document.querySelector('input[name="subject"]').value;
+    const message = document.querySelector('textarea[name="message"]').value;
+
+    // Create a new message object
+    const newMessage = {
+      name: name,
+      email: email,
+      subject: subject,
+      message: message,
+      timestamp: Date.now()
+    };
+
+    // Push the message to Firebase
+    push(ref(database, 'contacts'), newMessage)
+      .then(() => {
+        // Show success message
+        showAlert('Message sent successfully!', 'success');
+        
+        // Clear the form
+        document.querySelector('.contact-form').reset();
+      })
+      .catch((error) => {
+        // Show error message
+        showAlert('Error sending message. Please try again.', 'error');
+        console.error('Error:', error);
+      });
+  });
+
+  // Function to show alert
+  function showAlert(message, type) {
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert alert-${type}`;
+    alertDiv.style.position = 'fixed';
+    alertDiv.style.top = '20px';
+    alertDiv.style.left = '50%';
+    alertDiv.style.transform = 'translateX(-50%)';
+    alertDiv.style.padding = '15px 30px';
+    alertDiv.style.borderRadius = '5px';
+    alertDiv.style.zIndex = '1000';
+    
+    if (type === 'success') {
+      alertDiv.style.backgroundColor = '#4CAF50';
+      alertDiv.style.color = 'white';
+    } else {
+      alertDiv.style.backgroundColor = '#f44336';
+      alertDiv.style.color = 'white';
+    }
+    
+    alertDiv.textContent = message;
+    document.body.appendChild(alertDiv);
+
+    // Remove alert after 3 seconds
+    setTimeout(() => {
+      alertDiv.remove();
+    }, 3000);
+  }
+</script>
+</html>

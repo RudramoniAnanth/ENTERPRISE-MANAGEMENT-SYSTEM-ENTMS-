@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Messages Received</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f8f8f8;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 30px;
+      background-color: #fff;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      border-radius: 20px;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 40px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 15px 20px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #333;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    tr:hover {
+      background-color: #f5f5f5;
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+  <!-- Firebase JavaScript SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Messages Received</h1>
+    <table id="recordsTable">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Subject</th>
+          <th>Message</th>
+        </tr>
+      </thead>
+      <tbody id="recordsBody"></tbody>
+    </table>
+  </div>
+
+  <!-- Initialize Firebase -->
+  <script>
+    const firebaseConfig = {
+  apiKey: "AIzaSyAYKhbr4b51rh8y7TrszOe6K1NAyW51dPk",
+  authDomain: "entms-ac6ee.firebaseapp.com",
+  projectId: "entms-ac6ee",
+  storageBucket: "entms-ac6ee.firebasestorage.app",
+  messagingSenderId: "777824010875",
+  appId: "1:777824010875:web:2b0b260094736b3e6758de",
+  measurementId: "G-X3DN644P8K"
+};
+
+
+    firebase.initializeApp(firebaseConfig);
+
+    // Reference to the messages node in Firebase
+    const messagesRef = firebase.database().ref('messages');
+
+    // Fetch records and display them in a table
+    messagesRef.on('value', (snapshot) => {
+      const recordsBody = document.getElementById('recordsBody');
+      recordsBody.innerHTML = ''; // Clear previous records
+
+      snapshot.forEach((childSnapshot) => {
+        const record = childSnapshot.val();
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${record.name}</td>
+          <td>${record.email}</td>
+          <td>${record.subject}</td>
+          <td>${record.message}</td>
+        `;
+        recordsBody.appendChild(tr);
+      });
+    });
+  </script>
+</body>
+
+</html>

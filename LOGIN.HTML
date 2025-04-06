@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <title>Login</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        @keyframes slideIn {
+            0% { transform: translateX(-50%) translateY(-100%); opacity: 0; }
+            100% { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
+        .alert {
+            animation: slideIn 0.5s ease-out;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div id="home">
+        <div class="hero-content" style="max-width: 400px; margin: auto; padding: 40px; background: #ffffff; border-radius: 12px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+            <h1 style="text-align: center; color: #1E90FF;">Login</h1>
+            <form id="loginForm" class="contact-form">
+                <div class="form-group">
+                    <label for="email" style="display: block; margin-bottom: 8px;">Email ID:</label>
+                    <input type="email" id="email" name="login_input" placeholder="Enter your email" required autofocus style="width: 100%; border: 1px solid #ddd; background-color: #f9f9f9;">
+                </div>
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label for="pwd" style="display: block; margin-bottom: 8px;">Password:</label>
+                    <input type="password" id="pwd" name="password" placeholder="Enter your password" required style="width: 100%; border: 1px solid #ddd; background-color: #f9f9f9;">
+                </div>
+                <button type="submit" style="width: 100%; padding: 12px; font-size: 16px; border: none; cursor: pointer;">SUBMIT</button>
+            </form>
+            <p style="margin-top: 20px; text-align: center; color: #666;">
+                Note:<br>
+                You must be an admin to continue with the login. Contact the higher officials for any queries.
+            </p>
+        </div>
+    </div>
+
+    <!-- Firebase App (the core Firebase SDK) -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <!-- Firebase Auth SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+
+    <script>
+        // Initialize Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyAYKhbr4b51rh8y7TrszOe6K1NAyW51dPk",
+            authDomain: "entms-ac6ee.firebaseapp.com",
+            projectId: "entms-ac6ee",
+            storageBucket: "entms-ac6ee.firebasestorage.app",
+            messagingSenderId: "777824010875",
+            appId: "1:777824010875:web:2b0b260094736b3e6758de",
+            measurementId: "G-X3DN644P8K"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // Function to show alert messages
+        function showAlert(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = 'alert';
+            alertDiv.style.position = 'fixed';
+            alertDiv.style.top = '20px';
+            alertDiv.style.left = '50%';
+            alertDiv.style.transform = 'translateX(-50%)';
+            alertDiv.style.padding = '15px 30px';
+            alertDiv.style.borderRadius = '5px';
+            alertDiv.style.zIndex = '1000';
+            alertDiv.style.color = 'white';
+            alertDiv.style.backgroundColor = type === 'success' ? '#4CAF50' : '#f44336';
+            alertDiv.textContent = message;
+            document.body.appendChild(alertDiv);
+
+            setTimeout(() => alertDiv.remove(), 3000);
+        }
+
+        // Email validation function
+        function validateEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+        // Handle form submission
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('pwd').value;
+
+            if (!validateEmail(email)) {
+                showAlert('Please enter a valid email address', 'error');
+                return;
+            }
+
+            // Sign in with Firebase
+            firebase.auth().signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    // Successful login
+                    showAlert('Login successful!', 'success');
+                    setTimeout(() => {
+                        window.location.href = 'BUY.HTML';
+                    }, 1500);
+                })
+                .catch((error) => {
+                    console.error("Authentication error:", error);
+                    let errorMessage;
+                    
+                    switch (error.code) {
+                        case 'auth/user-not-found':
+                            errorMessage = 'No user found with this email.';
+                            break;
+                        case 'auth/wrong-password':
+                            errorMessage = 'Incorrect password.';
+                            break;
+                        case 'auth/invalid-email':
+                            errorMessage = 'Invalid email format.';
+                            break;
+                        case 'auth/invalid-credential':
+                            errorMessage = 'Invalid email or password.';
+                            break;
+                        default:
+                            errorMessage = 'Login failed. Please try again.';
+                    }
+                    
+                    showAlert(errorMessage, 'error');
+                });
+        });
+
+        // Check authentication state
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                console.log('User is signed in:', user.email);
+            } else {
+                console.log('No user is signed in.');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transactions</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-database.js"></script>
+</head>
+<body>
+    <h1>Transactions :</h1>
+
+    <table id="ordersTable">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Product</th>
+                <th>Units</th>
+                <th>Total Price</th>
+                <th>Purchased By</th>
+                <th>Payment Type</th>
+                <th>Transaction ID</th>
+                <th>Paid Using Number</th>
+                <th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody id="ordersBody">
+            <!-- Table rows will be dynamically added here -->
+        </tbody>
+    </table>
+
+    <!-- Firebase configuration and script to fetch data -->
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+  apiKey: "AIzaSyAYKhbr4b51rh8y7TrszOe6K1NAyW51dPk",
+  authDomain: "entms-ac6ee.firebaseapp.com",
+  projectId: "entms-ac6ee",
+  storageBucket: "entms-ac6ee.firebasestorage.app",
+  messagingSenderId: "777824010875",
+  appId: "1:777824010875:web:2b0b260094736b3e6758de",
+  measurementId: "G-X3DN644P8K"
+};
+
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // Fetch orders data from Firebase and populate the table
+        const ordersRef = database.ref('orders');
+        ordersRef.once('value')
+            .then(function(snapshot) {
+                const orders = snapshot.val();
+                if (orders) {
+                    const ordersBody = document.getElementById('ordersBody');
+                    // Get order IDs in reverse (stack manner)
+                    const orderIds = Object.keys(orders).reverse();
+                    orderIds.forEach(function(orderId) {
+                        const order = orders[orderId];
+                        const newRow = document.createElement('tr');
+                        newRow.innerHTML = `
+                            <td>${orderId}</td>
+                            <td>${order.product}</td>
+                            <td>${order.units}</td>
+                            <td>₹ ${order.totalPrice}</td>
+                            <td>${order.purchasedBy}</td>
+                            <td>${order.paymentType}</td>
+                            <td>${order.transactionId}</td>
+                            <td>${order.paidUsingNumber}</td>
+                            <td>${order.timestamp}</td>
+                        `;
+                        ordersBody.appendChild(newRow);
+                    });
+                }
+            })
+            .catch(function(error) {
+                console.error('Error fetching orders:', error);
+            });
+    </script>
+</body>
+</html>

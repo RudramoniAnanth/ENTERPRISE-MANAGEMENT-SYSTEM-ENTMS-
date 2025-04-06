@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Steel Prices</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Update Steel Prices</h1>
+        <table id="priceTable">
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+        </table>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-database.js"></script>
+    <script>
+        // Initialize Firebase
+        const firebaseConfig = {
+  apiKey: "AIzaSyAYKhbr4b51rh8y7TrszOe6K1NAyW51dPk",
+  authDomain: "entms-ac6ee.firebaseapp.com",
+  projectId: "entms-ac6ee",
+  storageBucket: "entms-ac6ee.firebasestorage.app",
+  messagingSenderId: "777824010875",
+  appId: "1:777824010875:web:2b0b260094736b3e6758de",
+  measurementId: "G-X3DN644P8K"
+};
+
+        firebase.initializeApp(firebaseConfig);
+
+        // Get references to the 'steel_details' and 'changes_records' nodes
+        const steelDetailsRef = firebase.database().ref('steel_details');
+        const changesRecordsRef = firebase.database().ref('changes_records');
+
+        // Render the initial products
+        steelDetailsRef.once('value', (snapshot) => {
+            const products = snapshot.val();
+            renderProducts(products);
+        });
+
+        // Render products in the table
+        function renderProducts(products) {
+            const tableBody = document.getElementById('priceTable').getElementsByTagName('tbody')[0];
+            if (!tableBody) {
+                const table = document.getElementById('priceTable');
+                const newBody = document.createElement('tbody');
+                table.appendChild(newBody);
+                tableBody = newBody;
+            }
+            tableBody.innerHTML = '';
+            for (const product in products) {
+                const row = document.createElement('tr');
+                const productCell = document.createElement('td');
+                const priceCell = document.createElement('td');
+                const stockCell = document.createElement('td');
+                const actionCell = document.createElement('td');
+                productCell.textContent = product;
+                priceCell.textContent = products[product].price;
+                stockCell.textContent = products[product].stockRemaining; // Display stock remaining value
+                const updateButton = document.createElement('button');
+                updateButton.textContent = 'Update Price';
+                updateButton.onclick = () => updatePrice(product, products[product].price);
+                actionCell.appendChild(updateButton);
+                const spacing = document.createTextNode(' '); // Add two spaces between buttons
+                actionCell.appendChild(spacing);
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete Product';
+                deleteButton.onclick = () => deleteProduct(product);
+                actionCell.appendChild(deleteButton);
+                row.appendChild(productCell);
+                row.appendChild(priceCell);
+                row.appendChild(stockCell); // Add stock remaining cell to the row
+                row.appendChild(actionCell);
+                tableBody.appendChild(row);
+            }
+        }
+
+        // Update price
+        async function updatePrice(product, currentPrice) {
+            const newPrice = prompt(`Updating the price of ${product}`, currentPrice);
+            if (newPrice !== null) {
+                const confirmation = confirm(`You are changing the price from ${currentPrice} to ${newPrice}. Proceed?`);
+                if (confirmation) {
+                    const timestamp = new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" });
+                    const description = `${product} price has been changed from ${currentPrice} to ${newPrice} at ${timestamp}`;
+                    steelDetailsRef.child(product).child('price').set(parseFloat(newPrice));
+                    changesRecordsRef.push({
+                        description,
+                        timestamp,
+                        type: 'price_update'
+                    });
+                    location.reload(); // Reload the page after updating the price
+                }
+            }
+        }
+
+        // Delete product
+        function deleteProduct(product) {
+            const confirmation = confirm(`Are you sure you want to delete ${product}?`);
+            if (confirmation) {
+                const timestamp = new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" });
+                const description = `${product} is deleted at ${timestamp}`;
+                steelDetailsRef.child(product).remove();
+                changesRecordsRef.push({
+                    description,
+                    timestamp,
+                    type: 'product_deletion'
+                });
+                location.reload(); // Reload the page after deleting the product
+            }
+        }
+    </script>
+</body>
+</html>
