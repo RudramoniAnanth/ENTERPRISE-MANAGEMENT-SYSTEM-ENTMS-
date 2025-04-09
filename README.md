@@ -12,37 +12,16 @@ This system uses Google Firebase for backend data storage (products, prices, inv
 
 This system provides functionalities for users (primarily administrators based on the login page) and potentially customers:
 
-**Public / General User:**
-
-* **Public Website (`index.html`):** Displays company information, services (Cement & Steel), team details, client associations, and contact information.
-* **Contact Form (`index.html`):** Allows users to submit inquiries directly to the business.
-
-**Authenticated User (Admin Focus):**
-
-* **Admin Authentication (`LOGIN.HTML`):**
-    * Provides a secure login form for users (explicitly noted for Admins).
-    * Uses Firebase Authentication (Email & Password) to verify credentials.
-    * Redirects to the Admin Dashboard (`buy.html`) upon successful login.
-    * Provides user-friendly error messages for common login issues.
-* **Admin Control Hub (`buy.html`):** Serves as a central dashboard accessible after login, linking to various management sections.
-* **Product Ordering (`cement.html`, `steel.html`):**
-    * Browse and select specific cement and steel products.
-    * Input desired quantity (units).
-    * View dynamically calculated total price.
-    * Provide necessary details and select payment type (Cash/UPI).
-    * Preview order details before submission.
-    * *(Accessed after successful login).*
-* **Order Confirmation (`success.html`):** Displays a success message and order summary upon successful purchase.
-* **Inventory Management:**
-    * Add new stock batches (`inventory_stock.html`): Record Batch ID, Product Type, Name, Quantity, Price/Unit, Date.
-    * View current stock levels (`stock_details.html`).
-* **Price Management (`cement_price_update.html`, `steel_price_update.html`):**
-    * View current prices for cement and steel products.
-    * Update prices individually for each product.
-* **Order Tracking (`orders.html`):** View a detailed history of all customer orders placed through the system.
-* **Message Review (`messages.html`):** Access and read messages submitted via the website's contact form.
-* **Update Log (`update_records.html`):** View a timestamped log of system changes, primarily focusing on price updates.
-
+* `index.html`: Main public-facing landing page.
+* `buy.html`: Administrator dashboard/navigation hub.
+* `cement.html` / `steel.html`: Customer ordering pages for specific products.
+* `inventory_stock.html`: Admin page to add new inventory.
+* `stock_details.html`: Admin page to view current inventory.
+* `cement_price_update.html` / `steel_price_update.html`: Admin pages to update product prices.
+* `orders.html`: Admin page to view order history.
+* `messages.html`: Admin page to view contact form messages.
+* `update_records.html`: Admin page to view price update logs.
+  
 ## Technology Stack
 
 * **Front-End:** HTML, CSS, JavaScript
@@ -68,21 +47,6 @@ This system provides functionalities for users (primarily administrators based o
 
 * **Administrator:** Navigate to `LOGIN.HTML`. Enter registered admin email and password to log in. Upon success, you are redirected to `buy.html` (Admin Hub). From there, access various sections to manage inventory, update prices, view orders, check messages, and review update logs. Administrators can also potentially place orders via `cement.html`/`steel.html` after login.
 * **General User/Customer:** Access `index.html` to view the site and use the contact form. Can send requests or send messages through the contact form of the `index.html`.
-
-## Key Files
-
-* `index.html`: Main public-facing landing page.
-* `LOGIN.HTML`: Admin login page using Firebase Authentication.
-* `buy.html`: Administrator dashboard/navigation hub (post-login).
-* `cement.html` / `steel.html`: Product ordering pages (post-login).
-* `inventory_stock.html`: Admin page to add new inventory.
-* `stock_details.html`: Admin page to view current inventory.
-* `cement_price_update.html` / `steel_price_update.html`: Admin pages to update product prices.
-* `orders.html`: Admin page to view order history.
-* `messages.html`: Admin page to view contact form messages.
-* `update_records.html`: Admin page to view price update logs.
-* `success.html`: Order confirmation page for customers.
-* `/assets/css/`: Contains stylesheets (`style.css`, `buy.css`, `login_register.css`).
 
 ## Dependencies
 
