@@ -43,11 +43,6 @@ This system provides functionalities for users (primarily administrators based o
     * Configure Firebase Realtime Database or Firestore according to the data structures expected by the JavaScript code (e.g., collections/nodes for products, prices, inventory, orders, messages, update logs). Ensure appropriate database security rules.
     * **Important:** Replace the placeholder Firebase configuration details found in `LOGIN.HTML` (and potentially other files) with your actual Firebase project configuration. Consider using environment variables or a separate configuration file for better security practices instead of hardcoding keys directly in the source code.
 
-## Usage
-
-* **Administrator:** Navigate to `LOGIN.HTML`. Enter registered admin email and password to log in. Upon success, you are redirected to `buy.html` (Admin Hub). From there, access various sections to manage inventory, update prices, view orders, check messages, and review update logs. Administrators can also potentially place orders via `cement.html`/`steel.html` after login.
-* **General User/Customer:** Access `index.html` to view the site and use the contact form. Can send requests or send messages through the contact form of the `index.html`.
-
 ## Dependencies
 
 * **Google Firebase:** Required for Authentication and all dynamic data operations.
