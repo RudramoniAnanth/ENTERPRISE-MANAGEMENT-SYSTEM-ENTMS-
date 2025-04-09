@@ -65,3 +65,8 @@ The update focuses on:
 * **Better Functioning:** Optimizing performance and ensuring a more robust application.
 
 Stay tuned for further updates!
+
+## Contributors
+**V. Abhiram Reddy**
+
+**Pavithra Sevakula**
